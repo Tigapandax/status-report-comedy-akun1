@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 // Status Report Comedy Sprint entry: print the one-line weekly status
 // report after validating it against the bounty rules (max 200 chars,
@@ -24,3 +24,10 @@ if (failures.length > 0) {
 
 console.log(line);
 console.log(`OK: ${line.length}/200 characters, single line, valid status report.`);
+
+// Harness program/v1: the sealed scorer reads the entry from
+// <MAKEFUN_OUTPUT_DIR>/entry.txt, so write the line there too
+// (stdout alone scores Valid 0).
+const outDir = process.env.MAKEFUN_OUTPUT_DIR || "/output";
+mkdirSync(outDir, { recursive: true });
+writeFileSync(`${outDir}/entry.txt`, line + "\n", "utf8");
