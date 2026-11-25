@@ -14,6 +14,8 @@ if (/[\r\n]/.test(line)) failures.push("must be a single line");
 if (/\s{2,}/.test(line)) failures.push("double space found");
 if (!/[.!?]$/.test(line)) failures.push("must end with terminal punctuation");
 if (!/[a-zA-Z]/.test(line)) failures.push("must contain letters");
+if (line.split(/\s+/).length < 3) failures.push("too short to be a status report");
+if (/https?:\/\/|www\./.test(line)) failures.push("no links in a status line");
 
 if (failures.length > 0) {
   for (const failure of failures) console.error(`FAIL: ${failure}`);
